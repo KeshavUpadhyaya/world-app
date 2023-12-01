@@ -2,6 +2,7 @@ import { createCamera } from "../components/camera";
 import { createCube } from "../components/cube";
 import { createLights } from "../components/lights";
 import { createScene } from "../components/scene";
+import { createControls } from "../systems/controls";
 import { Loop } from "../systems/Loop";
 import { createRenderer } from "../systems/renderer";
 import { ReSizer } from "../systems/Resizer";
@@ -18,19 +19,29 @@ class World {
 
         container.append(this.renderer.domElement);
 
+        const controls = createControls(this.camera, this.renderer.domElement )
+
+
         const cube = createCube();
-        const light = createLights();
+        const {ambientLight, light} = createLights();
 
-        this.loop.updatableObjs.push(cube);
+        // controls.target.copy(cube.position);
 
-        this.scene.add(cube, light);
+        controls.addEventListener('change', () => {
+            this.render();
+        })
+
+        this.loop.updatableObjs.push(controls)
+        // this.loop.updatableObjs.push(cube);
+
+        this.scene.add(cube, light, ambientLight);
 
         const resizer = new ReSizer(container, this.camera, this.renderer);
 
         // not required since loop animation will take care of rerendering (it's fast enough)
-        // resizer.onResize = () => {
-        //     this.render();
-        // }
+        resizer.onResize = () => {
+            this.render();
+        }
     }
 
     // 2. Render the scene

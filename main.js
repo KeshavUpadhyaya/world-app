@@ -1,5 +1,5 @@
 import { World } from "./World/World";
-import './style.css'
+import './style.css';
 
 // create the main function
 function main() {
@@ -9,6 +9,7 @@ function main() {
   console.log(world)
 
   world.start();
+  // world.render();
 }
 
 // call main to start the app

@@ -1,10 +1,14 @@
-import { DirectionalLight, PointLight, RectAreaLight, SpotLight } from "three";
+import { DirectionalLight, HemisphereLight } from "three";
 
 function createLights() {
+    const  ambientLight = 
+    new HemisphereLight('white', 'darkslategrey', 5);
+    // new AmbientLight('white', 2);
+    
     const light = new DirectionalLight('white', 8);
 
     light.position.set(10, 10, 10)
-    return light;
+    return {ambientLight, light}
 }
 
-export { createLights }
+export { createLights };
